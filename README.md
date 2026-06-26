@@ -1,161 +1,146 @@
 # Engineering Verification Loop
 
-Engineering Verification Loop is a Codex skill pack for evidence-driven Go and Python engineering work. It routes high-risk changes through specialist verification gates and produces an auditable evidence bundle before readiness, performance, compatibility, or conformance claims are accepted.
+中文 | [English](README.en.md)
 
-This repository packages the currently installed local skill pack into a GitHub-ready distribution.
+Engineering Verification Loop 是一个面向 Codex 的技能包，用于对 Go 和 Python 工程变更做证据驱动的验证。它会把高风险变更路由到专门的验证关卡，在接受“已就绪”“性能达标”“兼容”“模型一致”等结论前，要求生成可审计的证据包。
 
-## What This Skill Pack Is For
+这个仓库把当前本地安装的技能包整理成可发布到 GitHub 的分发版本。
 
-Use this pack when a change needs defensible evidence for one or more of these risks:
+## 适用场景
 
-- correctness-critical logic, parsers, validators, authorization, or state transitions
-- handwritten Go/Python implementation alignment with Dafny or TLA models
-- algorithm or data-structure selection under measurable performance constraints
-- benchmark, experiment, or product performance claims
-- API, schema, SDK, event, OpenAPI, JSON Schema, GraphQL, or Protobuf compatibility
-- CI failure classification, reproduction, and regression forensics
-- profiler-guided CPU, memory, allocation, or I/O optimization
-- distributed protocol behavior under retries, partitions, crashes, clocks, quorum, or async ordering
+当一次变更需要为以下风险提供可辩护的证据时，使用这个技能包：
 
-The pack is intentionally strict: unsupported claims are documented as limitations instead of being treated as passed gates.
+- 正确性关键逻辑、解析器、校验器、授权逻辑或状态转移
+- 手写 Go/Python 实现与 Dafny 或 TLA 模型的一致性
+- 在可测量性能约束下选择算法或数据结构
+- 基准测试、实验结果或产品性能结论
+- API、Schema、SDK、事件、OpenAPI、JSON Schema、GraphQL 或 Protobuf 兼容性
+- CI 失败分类、复现和回归取证
+- 基于 profiler 的 CPU、内存、分配或 I/O 优化
+- 分布式协议在重试、分区、崩溃、时钟、法定人数或异步顺序下的行为
 
-## Included Skills
+这个技能包刻意保持严格：没有证据支撑的结论会被记录为限制，而不是被当成已通过的关卡。
 
-| Skill | Purpose |
+## 包含的技能
+
+| 技能 | 用途 |
 | --- | --- |
-| `engineering-verification-loop` | Top-level orchestration, risk routing, evidence bundle audit |
-| `dafny-verification` | Dafny 4+ proof workflow for local correctness properties |
-| `property-based-differential-testing` | Property, differential, metamorphic, and generated-input testing |
-| `algorithm-selection-benchmarking` | Algorithm/data-structure selection and benchmark evidence |
-| `api-contract-compatibility` | OpenAPI, JSON fixture, Protobuf, and contract compatibility checks |
-| `ci-regression-forensics` | CI failure classification, signature extraction, diagnostics, bisect support |
-| `reproducible-experiment-analysis` | Experiment manifests, repeated metrics, uncertainty, reproducibility audit |
-| `profiler-guided-optimization` | Profiling workflow and before/after optimization metrics |
-| `model-implementation-conformance` | Map Dafny/TLA model properties to Go/Python implementation evidence |
-| `tla-distributed-model-checking` | TLC and optional Apalache model checking for distributed protocols |
+| `engineering-verification-loop` | 顶层编排、风险路由和证据包审计 |
+| `dafny-verification` | 面向局部正确性属性的 Dafny 4+ 证明流程 |
+| `property-based-differential-testing` | 属性测试、差分测试、变形测试和生成输入测试 |
+| `algorithm-selection-benchmarking` | 算法/数据结构选择与基准证据 |
+| `api-contract-compatibility` | OpenAPI、JSON fixture、Protobuf 和契约兼容性检查 |
+| `ci-regression-forensics` | CI 失败分类、签名提取、诊断和 bisect 支持 |
+| `reproducible-experiment-analysis` | 实验清单、重复指标、不确定性和可复现性审计 |
+| `profiler-guided-optimization` | profiling 流程和优化前后指标 |
+| `model-implementation-conformance` | 将 Dafny/TLA 模型属性映射到 Go/Python 实现证据 |
+| `tla-distributed-model-checking` | 分布式协议的 TLC 和可选 Apalache 模型检查 |
 
-## Repository Layout
+## 仓库结构
 
 ```text
 .
-├── skills/                    # Codex skill directories copied into CODEX_HOME/skills
+├── skills/                    # 会复制到 CODEX_HOME/skills 的 Codex 技能目录
 ├── scripts/
-│   ├── install.sh             # Install or update skills locally
-│   └── validate.sh            # Validate repository package structure and scripts
+│   ├── install.sh             # 在本地安装或更新技能
+│   └── validate.sh            # 校验仓库包结构和脚本
 ├── docs/
-│   ├── INSTALL.md             # Detailed installation guide
-│   ├── DEPENDENCIES.md        # Gate-specific tool dependencies
-│   └── RELEASE_CHECKLIST.md   # Maintainer release checklist
-├── .github/workflows/         # GitHub Actions validation workflow
+│   ├── INSTALL.md             # 详细安装指南
+│   ├── DEPENDENCIES.md        # 各验证关卡需要的工具依赖
+│   └── RELEASE_CHECKLIST.md   # 维护者发布检查清单
+├── .github/workflows/         # GitHub Actions 校验工作流
 ├── VERSION
-└── README.md
+├── README.md                  # 默认中文 README
+└── README.en.md               # 英文 README
 ```
 
-## Quick Install
+## 快速安装
 
-From a clone of this repository:
+在这个仓库的克隆目录中运行：
 
 ```bash
 ./scripts/install.sh
 ```
 
-By default, the installer copies every skill into:
+默认情况下，安装脚本会把所有技能复制到：
 
 ```text
 ${CODEX_HOME:-$HOME/.codex}/skills
 ```
 
-Install into a custom Codex home:
+安装到自定义 Codex home：
 
 ```bash
 ./scripts/install.sh --dest "$HOME/.codex/skills"
 ```
 
-Preview without writing:
+只预览、不写入：
 
 ```bash
 ./scripts/install.sh --dry-run
 ```
 
-See [docs/INSTALL.md](docs/INSTALL.md) for full installation and dependency setup.
+完整安装和依赖配置见 [docs/INSTALL.md](docs/INSTALL.md)。
 
-## Validate the Package
+## 校验包
 
-Run:
+运行：
 
 ```bash
 ./scripts/validate.sh
 ```
 
-Validation checks:
+校验内容包括：
 
-- every packaged skill has a valid `SKILL.md` frontmatter
-- Python scripts compile
-- shell scripts parse with `bash -n`
-- JSON templates parse
-- executable scripts have executable permissions
+- 每个打包技能都有有效的 `SKILL.md` frontmatter
+- Python 脚本可以编译
+- shell 脚本可以通过 `bash -n` 解析
+- JSON 模板可以解析
+- 可执行脚本具备可执行权限
 
-This does not prove every specialist gate can run on a target project. Gate-specific tools are listed in [docs/DEPENDENCIES.md](docs/DEPENDENCIES.md).
+这并不证明每个专门验证关卡都能在目标项目中运行。各关卡需要的工具见 [docs/DEPENDENCIES.md](docs/DEPENDENCIES.md)。
 
-## Basic Usage
+## 基本用法
 
-After installation, ask Codex to use the top-level skill on a concrete engineering change:
+安装后，可以让 Codex 对一个具体工程变更使用顶层技能：
 
 ```text
 Use $engineering-verification-loop to verify this Go/Python change.
 ```
 
-The orchestrator will:
+编排器会：
 
-1. classify active risks
-2. route each risk to a specialist skill
-3. require the relevant command evidence
-4. assemble an evidence bundle
-5. run `skills/engineering-verification-loop/scripts/audit-evidence-bundle.py`
-6. report passed gates, failed gates, unsupported claims, and the next blocked gate
+1. 识别当前风险
+2. 将每类风险路由到对应的专门技能
+3. 要求提供相关命令证据
+4. 组装证据包
+5. 运行 `skills/engineering-verification-loop/scripts/audit-evidence-bundle.py`
+6. 报告已通过关卡、失败关卡、无证据支撑的结论和下一个阻塞关卡
 
-## Evidence Bundle
+## 证据包
 
-The core release artifact is the evidence bundle format under:
+核心发布工件是证据包格式，位于：
 
 ```text
 skills/engineering-verification-loop/assets/templates/evidence-bundle.json
 ```
 
-Use it to record:
+用它记录：
 
-- changed targets and implementation languages
-- active risks
-- formal coverage maps
-- workloads and claim scopes
-- artifacts with `sha256`, producer command, and exit code
-- specialist evidence by risk
-- structured unsupported claims
+- 变更目标和实现语言
+- 当前风险
+- 形式化覆盖映射
+- 工作负载和结论范围
+- 带有 `sha256`、生产命令和退出码的工件
+- 按风险分类的专门证据
+- 结构化的无证据支撑结论
 
-Audit it with:
+使用以下命令审计：
 
 ```bash
 skills/engineering-verification-loop/scripts/audit-evidence-bundle.py path/to/evidence-bundle.json --repo-root .
 ```
 
-## Publishing to GitHub
+## 许可证
 
-This repository is ready to be pushed to GitHub as a normal repository:
-
-```bash
-git remote add origin git@github.com:<owner>/engineering-verification-loop.git
-git push -u origin main
-```
-
-Create an initial release:
-
-```bash
-git tag v$(cat VERSION)
-git push origin v$(cat VERSION)
-```
-
-The GitHub Actions workflow validates the packaged skills on push and pull requests.
-
-## License
-
-Apache License 2.0. See [LICENSE](LICENSE).
+Apache License 2.0。见 [LICENSE](LICENSE)。
