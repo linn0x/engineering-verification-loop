@@ -2,9 +2,23 @@
 
 [中文](README.md) | English
 
-Engineering Verification Loop is a Codex skill pack for evidence-driven Go and Python engineering work. It routes high-risk changes through specialist verification gates and produces an auditable evidence bundle before readiness, performance, compatibility, or conformance claims are accepted.
+Engineering Verification Loop is a Codex skill pack that turns Codex from a code executor into an engineering agent that can autonomously drive the full engineering development lifecycle from a requirement. You can hand Codex a product or engineering request and have it move through requirement clarification, scope definition, risk decomposition, design, implementation planning, code changes, test verification, performance/compatibility/model checks, evidence archiving, and delivery summary.
+
+Its core value is not a final check pass. It makes the development process evidence-constrained from the start: every important claim needs a verification path, every high-risk area goes through a specialist gate, and every unsupported claim is downgraded into a limitation, risk, or next step. When requirements are unclear, context is missing, permissions are unavailable, or evidence is insufficient, it reports the blocker and next action instead of presenting unverified work as complete.
 
 This repository packages the currently installed local skill pack into a GitHub-ready distribution.
+
+## What You Can Use It For
+
+Use this pack to more confidently delegate an engineering task to Codex end to end:
+
+- turn a natural-language request into an engineering brief: goals, non-goals, constraints, risk assumptions, acceptance criteria, and verification commands
+- let Codex orchestrate requirements analysis, design, implementation planning, code changes, testing, debugging, optimization, regression checks, and delivery summary
+- decide before coding which claims must be proven by unit tests, property/differential tests, contract checks, model checks, benchmarks, or profiler output
+- build a closed loop from requirements to implementation, from implementation to verification, and from verification to an evidence bundle for high-risk Go/Python changes
+- make Codex keep asking for evidence during development instead of accepting code that merely appears to run
+- leave a reviewable engineering record for PRs, releases, performance work, and compatibility changes
+- report concrete blockers, missing evidence, and next actions when it cannot proceed, instead of pretending the task is complete
 
 ## What This Skill Pack Is For
 
