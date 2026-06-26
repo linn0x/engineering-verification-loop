@@ -1,0 +1,3 @@
+name,variant,metric,value,unit,lower_is_better
+lookup,baseline,p95_latency,12.4,ms,true
+lookup,candidate,p95_latency,3.1,ms,true

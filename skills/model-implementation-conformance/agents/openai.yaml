@@ -1,0 +1,4 @@
+interface:
+  display_name: "Model Implementation Conformance"
+  short_description: "Conformance specialist for engineering-verification-loop"
+  default_prompt: "Use $model-implementation-conformance directly or as routed by $engineering-verification-loop to audit how Dafny or TLA model properties are covered by Go/Python implementation tests, fixtures, fuzzing, or generated-code evidence."

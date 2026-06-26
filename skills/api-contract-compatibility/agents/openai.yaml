@@ -1,0 +1,4 @@
+interface:
+  display_name: "API Contract Compatibility"
+  short_description: "API specialist for engineering-verification-loop"
+  default_prompt: "Use $api-contract-compatibility directly or as routed by $engineering-verification-loop to check API, schema, event, RPC, or SDK contract changes against a compatibility baseline."

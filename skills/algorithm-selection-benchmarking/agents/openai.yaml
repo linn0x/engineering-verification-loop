@@ -1,0 +1,4 @@
+interface:
+  display_name: "Algorithm Selection & Benchmarking"
+  short_description: "Algorithm specialist for engineering-verification-loop"
+  default_prompt: "Use $algorithm-selection-benchmarking directly or as routed by $engineering-verification-loop to select, benchmark, and document performance-sensitive algorithms while preserving correctness contracts."

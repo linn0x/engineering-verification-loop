@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0",
+  "model": {
+    "kind": "dafny",
+    "artifact": "formal/Spec.dfy",
+    "status": "passed"
+  },
+  "implementation_targets": [
+    {
+      "language": "go",
+      "artifact": "internal/normalize/normalize.go",
+      "entrypoints": ["NormalizeValues"]
+    },
+    {
+      "language": "python",
+      "artifact": "src/normalize.py",
+      "entrypoints": ["normalize_values"]
+    }
+  ],
+  "properties": [
+    {
+      "id": "property-id",
+      "formal_artifact": "formal/Spec.dfy",
+      "formal_symbol": "NormalizeSpec",
+      "kind": "postcondition",
+      "description": "Formal model property.",
+      "preconditions": ["Inputs satisfy the model domain."],
+      "model_semantics": {
+        "integer_domain": "unbounded_math_int"
+      },
+      "target_semantics": {
+        "integer_width": "int64",
+        "overflow_policy": "reject",
+        "mutation_policy": "input_not_mutated"
+      },
+      "implementation_obligations": ["sorted output", "membership preserved"]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "go-model-conformance",
+      "language": "go",
+      "implementation_artifact": "internal/normalize/normalize.go",
+      "entrypoint": "NormalizeValues",
+      "evidence_type": "property_differential",
+      "test_command": "go test ./...",
+      "result_artifact": "reports/go-test.log",
+      "artifact": "reports/go-test.log",
+      "status": "passed",
+      "covers": ["property-id"],
+      "case_count": 1000,
+      "seed": 20260614,
+      "known_gaps": []
+    },
+    {
+      "id": "python-model-conformance",
+      "language": "python",
+      "implementation_artifact": "src/normalize.py",
+      "entrypoint": "normalize_values",
+      "evidence_type": "fixture",
+      "test_command": "pytest tests/test_model_conformance.py -q",
+      "result_artifact": "reports/pytest.log",
+      "artifact": "reports/pytest.log",
+      "status": "passed",
+      "covers": ["property-id"],
+      "case_count": 1000,
+      "seed": 20260614,
+      "known_gaps": []
+    }
+  ],
+  "unsupported_claims": [
+    {
+      "id": "handwritten-not-refinement",
+      "claim": "Machine-checked Go/Python refinement",
+      "reason": "Handwritten implementation is conformance-tested, not checked refinement.",
+      "scope": "implementation-conformance",
+      "disposition": "not_machine_checked",
+      "related_fields": ["evidence", "implementation_targets"]
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "workloads": [
+    {
+      "id": "synthetic-normalize-v1",
+      "level": "synthetic_only",
+      "source": "bench_normalize.py",
+      "production_claim": false,
+      "sample_count": 10,
+      "input_distribution": {
+        "description": "local generated cases",
+        "seeds": [10000, 10001]
+      },
+      "runtime_environment": {
+        "os": "<os>",
+        "cpu": "<cpu>",
+        "go": "<go version>",
+        "python": "<python version>"
+      },
+      "known_biases": ["synthetic", "local machine", "single process"]
+    }
+  ],
+  "claims": [
+    {
+      "id": "local-performance-claim",
+      "kind": "performance",
+      "scope": "local",
+      "metric": "latency_ms",
+      "workload_id": "synthetic-normalize-v1",
+      "evidence_refs": ["benchmark-metrics"]
+    }
+  ],
+  "unsupported_claims": [
+    {
+      "id": "no-production-impact",
+      "claim": "Production latency impact",
+      "reason": "Only synthetic local workload evidence is available.",
+      "scope": "production",
+      "disposition": "accepted_local_only",
+      "related_fields": ["workloads", "claims"]
+    }
+  ]
+}

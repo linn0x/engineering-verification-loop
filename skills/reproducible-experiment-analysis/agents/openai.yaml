@@ -1,0 +1,4 @@
+interface:
+  display_name: "Reproducible Experiment Analysis"
+  short_description: "Experiment specialist for engineering-verification-loop"
+  default_prompt: "Use $reproducible-experiment-analysis directly or as routed by $engineering-verification-loop to audit an experiment result, benchmark report, ablation, or metric comparison for reproducibility and workload validity."

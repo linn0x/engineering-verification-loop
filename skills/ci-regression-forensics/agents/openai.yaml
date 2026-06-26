@@ -1,0 +1,4 @@
+interface:
+  display_name: "CI Regression Forensics"
+  short_description: "CI specialist for engineering-verification-loop"
+  default_prompt: "Use $ci-regression-forensics directly or as routed by $engineering-verification-loop to parse structured CI failure footers, classify CI failures, extract stable signatures, reproduce locally, and route fixes to the right specialist workflow."

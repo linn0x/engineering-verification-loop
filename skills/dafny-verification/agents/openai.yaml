@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dafny Verification"
+  short_description: "Dafny specialist for engineering-verification-loop"
+  default_prompt: "Use $dafny-verification directly or as routed by $engineering-verification-loop to verify correctness-critical models before implementing target-language code."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "TLA+ Distributed Model Checking"
+  short_description: "TLA+ specialist for engineering-verification-loop"
+  default_prompt: "Use $tla-distributed-model-checking directly or as routed by $engineering-verification-loop to model-check distributed protocol safety and liveness assumptions before implementing local handlers."

@@ -1,0 +1,39 @@
+{
+  "go": [
+    {
+      "kind": "unit",
+      "command": "go test ./...",
+      "status": "passed",
+      "artifact_refs": ["go-test-log"],
+      "summary": "Go unit tests passed."
+    },
+    {
+      "kind": "race",
+      "command": "go test -race ./...",
+      "status": "passed",
+      "artifact_refs": ["go-race-log"],
+      "summary": "Race detector passed for concurrency-sensitive targets."
+    },
+    {
+      "kind": "fuzz",
+      "command": "go test -fuzz=Fuzz -fuzztime=30s ./...",
+      "status": "passed",
+      "artifact_refs": ["go-fuzz-log"],
+      "summary": "Go fuzz/property corpus passed."
+    },
+    {
+      "kind": "benchmark",
+      "command": "go test -run '^$' -bench BenchmarkNormalize -benchmem -count=10 ./...",
+      "status": "passed",
+      "artifact_refs": ["go-benchmark-log"],
+      "summary": "Go benchmark samples recorded."
+    },
+    {
+      "kind": "profile",
+      "command": "go test -run '^$' -bench BenchmarkNormalize -cpuprofile reports/cpu.pprof -memprofile reports/mem.pprof ./...",
+      "status": "passed",
+      "artifact_refs": ["go-cpu-profile", "go-mem-profile"],
+      "summary": "Go CPU/memory profiles recorded."
+    }
+  ]
+}

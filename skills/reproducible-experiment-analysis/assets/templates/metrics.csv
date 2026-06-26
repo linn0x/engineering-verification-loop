@@ -1,0 +1,3 @@
+variant,metric,value,unit,run_id,seed
+baseline,latency_ms,100,ms,1,0
+candidate,latency_ms,94,ms,1,0

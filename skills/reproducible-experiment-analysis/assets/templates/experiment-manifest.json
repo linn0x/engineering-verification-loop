@@ -1,0 +1,28 @@
+{
+  "claim": "candidate improves latency without quality regression",
+  "hypothesis": "candidate reduces p95 latency by at least 5%",
+  "baseline": "main@<sha-or-tag>",
+  "candidate": "working-tree@<sha-or-diff>",
+  "dataset": {
+    "name": "<dataset-or-fixture-name>",
+    "snapshot": "<immutable-id-or-sha256>"
+  },
+  "command": "<exact command>",
+  "metrics": [
+    {
+      "name": "latency_ms",
+      "direction": "lower-is-better",
+      "unit": "ms"
+    }
+  ],
+  "minimum_effect": "5%",
+  "seeds": [0, 1, 2, 3, 4],
+  "repetitions": 5,
+  "environment": "<context-json-path>",
+  "git_revision": "<sha>",
+  "dependency_snapshot": "<lockfile hashes>",
+  "hardware": "<machine/runtime>",
+  "warmup_policy": "<warmup description>",
+  "exclusion_policy": "<predeclared exclusion policy>",
+  "confirmation_run": "<date/command/result>"
+}

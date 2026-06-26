@@ -1,0 +1,3 @@
+variant,metric,value,unit,run_id
+before,latency_ms,100,ms,1
+after,latency_ms,90,ms,1

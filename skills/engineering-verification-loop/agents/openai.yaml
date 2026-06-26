@@ -1,0 +1,4 @@
+interface:
+  display_name: "Engineering Verification Loop"
+  short_description: "Top-level Go/Python verification skill pack"
+  default_prompt: "Use $engineering-verification-loop to classify a Go/Python-heavy engineering change, route it through specialist verification skills, and audit the final evidence bundle."

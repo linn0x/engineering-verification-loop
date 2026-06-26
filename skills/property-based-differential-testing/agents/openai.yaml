@@ -1,0 +1,4 @@
+interface:
+  display_name: "Property-Based Differential Testing"
+  short_description: "Testing specialist for engineering-verification-loop"
+  default_prompt: "Use $property-based-differential-testing directly or as routed by $engineering-verification-loop to compare implementations against trusted oracles across generated inputs and preserve counterexamples."

@@ -1,0 +1,1 @@
+{"id":"trace-1","initial_state":{"items":[]},"observable_projection":["items"],"steps":[{"action":"append","input":{"value":1},"expected_state":{"items":[1]}},{"action":"append","input":{"value":1},"expected_state":{"items":[1]}}],"allowed_stuttering":true}

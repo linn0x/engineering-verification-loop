@@ -1,0 +1,272 @@
+{
+  "schema_version": "1.0",
+  "change_summary": "<what changed>",
+  "risks": ["correctness", "conformance", "performance", "profile", "ci"],
+  "risk_traits": ["algorithmic"],
+  "targets": [
+    {
+      "language": "go",
+      "paths": ["internal/normalize/normalize.go", "internal/normalize/normalize_test.go"],
+      "package_or_module": "internal/normalize",
+      "public_entrypoints": ["NormalizeValues"]
+    },
+    {
+      "language": "python",
+      "paths": ["src/normalize.py", "tests/test_model_conformance.py"],
+      "package_or_module": "normalize",
+      "public_entrypoints": ["normalize_values"]
+    }
+  ],
+  "implementation_languages": ["go", "python"],
+  "formal_coverage_map": "formal-coverage-map.json",
+  "workloads": [
+    {
+      "id": "synthetic-normalize-v1",
+      "level": "synthetic_only",
+      "source": "bench_normalize.py",
+      "production_claim": false,
+      "sample_count": 10,
+      "input_distribution": {
+        "description": "local duplicate-heavy generated integer lists",
+        "seeds": [10000, 10001]
+      },
+      "runtime_environment": {
+        "os": "<os>",
+        "go": "<go version>",
+        "python": "<python version>"
+      },
+      "known_biases": ["local single-process workload"]
+    }
+  ],
+  "claims": [
+    {
+      "id": "implementation-conforms-to-model",
+      "kind": "implementation_conformance",
+      "scope": "go-python",
+      "property_ids": ["property-id"],
+      "evidence_refs": ["conformance-audit"]
+    },
+    {
+      "id": "local-performance-claim",
+      "kind": "performance",
+      "scope": "local",
+      "metric": "latency_ms",
+      "workload_id": "synthetic-normalize-v1",
+      "evidence_refs": ["benchmark-metrics"]
+    },
+    {
+      "id": "hotspot-profiled",
+      "kind": "profile",
+      "scope": "local",
+      "metric": "cpu_samples",
+      "workload_id": "synthetic-normalize-v1",
+      "evidence_refs": ["cpu-profile"]
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "dafny-verify-log",
+      "path": "reports/dafny-verify.log",
+      "kind": "test-log",
+      "sha256": "<sha256>",
+      "producer_command": "dafny verify formal/Spec.dfy",
+      "exit_code": 0
+    },
+    {
+      "id": "property-test-log",
+      "path": "reports/property-tests.log",
+      "kind": "test-log",
+      "sha256": "<sha256>",
+      "producer_command": "pytest tests/test_model_conformance.py -q",
+      "exit_code": 0
+    },
+    {
+      "id": "conformance-audit",
+      "path": "reports/conformance-audit.json",
+      "kind": "audit-result",
+      "sha256": "<sha256>",
+      "producer_command": "audit-conformance-map.py reports/conformance-map.json --json",
+      "exit_code": 0
+    },
+    {
+      "id": "go-test-log",
+      "path": "reports/go-test.log",
+      "kind": "test-log",
+      "sha256": "<sha256>",
+      "producer_command": "go test ./...",
+      "exit_code": 0
+    },
+    {
+      "id": "pytest-log",
+      "path": "reports/pytest.log",
+      "kind": "test-log",
+      "sha256": "<sha256>",
+      "producer_command": "pytest -q",
+      "exit_code": 0
+    },
+    {
+      "id": "benchmark-metrics",
+      "path": "reports/benchmarks.csv",
+      "kind": "metrics",
+      "sha256": "<sha256>",
+      "producer_command": "go test -bench=. -benchmem ./...",
+      "exit_code": 0
+    },
+    {
+      "id": "cpu-profile",
+      "path": "reports/cpu.pprof",
+      "kind": "profile",
+      "sha256": "<sha256>",
+      "producer_command": "go test -bench=. -cpuprofile reports/cpu.pprof ./...",
+      "exit_code": 0
+    },
+    {
+      "id": "ci-log",
+      "path": "ci/failing-job.log",
+      "kind": "ci-log",
+      "sha256": "<sha256>",
+      "producer_command": "classify-ci-log.py ci/failing-job.log --json",
+      "exit_code": 0
+    }
+  ],
+  "ci_structured_footer": {
+    "present": true,
+    "artifact": "ci/failing-job.log",
+    "failure_type": "api-schema-compatibility",
+    "specialist_route": "api-contract-compatibility"
+  },
+  "language_checks": {
+    "go": [
+      {
+        "kind": "unit",
+        "command": "go test ./...",
+        "status": "passed",
+        "artifact_refs": ["go-test-log"],
+        "summary": "Go unit tests passed."
+      },
+      {
+        "kind": "fuzz",
+        "command": "go test -fuzz=Fuzz -fuzztime=30s ./...",
+        "status": "passed",
+        "artifact_refs": ["go-test-log"],
+        "summary": "Go fuzz/property corpus passed."
+      },
+      {
+        "kind": "benchmark",
+        "command": "go test -bench=. -benchmem ./...",
+        "status": "passed",
+        "artifact_refs": ["benchmark-metrics"],
+        "summary": "Go benchmark artifact recorded."
+      },
+      {
+        "kind": "profile",
+        "command": "go test -bench=. -cpuprofile reports/cpu.pprof ./...",
+        "status": "passed",
+        "artifact_refs": ["cpu-profile"],
+        "summary": "Go CPU profile recorded."
+      }
+    ],
+    "python": [
+      {
+        "kind": "unit",
+        "command": "pytest -q",
+        "status": "passed",
+        "artifact_refs": ["pytest-log"],
+        "summary": "Python unit tests passed."
+      },
+      {
+        "kind": "differential",
+        "command": "pytest tests/test_model_conformance.py -q",
+        "status": "passed",
+        "artifact_refs": ["pytest-log"],
+        "summary": "Python implementation matched model fixtures/oracle."
+      },
+      {
+        "kind": "benchmark",
+        "command": "pytest --benchmark-only",
+        "status": "passed",
+        "artifact_refs": ["benchmark-metrics"],
+        "summary": "Python benchmark artifact recorded."
+      },
+      {
+        "kind": "profile",
+        "command": "python -m cProfile -o reports/profile.prof scripts/profile_workload.py",
+        "status": "passed",
+        "artifact_refs": ["cpu-profile"],
+        "summary": "Python profile artifact recorded."
+      }
+    ]
+  },
+  "evidence": {
+    "correctness": [
+      {
+        "skill": "dafny-verification",
+        "command": "dafny verify formal/Spec.dfy",
+        "status": "passed",
+        "artifact_refs": ["dafny-verify-log"],
+        "summary": "Dafny verified model properties."
+      },
+      {
+        "skill": "property-based-differential-testing",
+        "command": "pytest tests/test_model_conformance.py -q",
+        "status": "passed",
+        "artifact_refs": ["property-test-log"],
+        "summary": "Implementation matched oracle/model fixtures."
+      }
+    ],
+    "conformance": [
+      {
+        "skill": "model-implementation-conformance",
+        "command": "audit-conformance-map.py reports/conformance-map.json --json",
+        "status": "passed",
+        "artifact_refs": ["conformance-audit"],
+        "summary": "Every model property has passed Go/Python implementation evidence."
+      }
+    ],
+    "performance": [
+      {
+        "skill": "algorithm-selection-benchmarking",
+        "command": "go test -bench=. -benchmem ./...",
+        "status": "passed",
+        "artifact_refs": ["benchmark-metrics"],
+        "summary": "Local benchmark supports a local performance claim."
+      }
+    ],
+    "profile": [
+      {
+        "skill": "profiler-guided-optimization",
+        "command": "go test -bench=. -cpuprofile reports/cpu.pprof ./...",
+        "status": "passed",
+        "artifact_refs": ["cpu-profile"],
+        "summary": "Profile artifact identifies the measured hotspot."
+      }
+    ],
+    "ci": [
+      {
+        "skill": "ci-regression-forensics",
+        "command": "classify-ci-log.py ci/failing-job.log --json",
+        "status": "passed",
+        "artifact_refs": ["ci-log"],
+        "summary": "CI failure was classified with structured footer semantics."
+      }
+    ]
+  },
+  "unsupported_claims": [
+    {
+      "id": "no-production-impact",
+      "claim": "Production latency impact",
+      "reason": "Only synthetic local workload evidence is available.",
+      "scope": "production",
+      "disposition": "accepted_local_only",
+      "related_fields": ["workloads", "claims"]
+    },
+    {
+      "id": "handwritten-not-refinement",
+      "claim": "Machine-checked Go/Python refinement",
+      "reason": "Handwritten implementation is conformance-tested, not checked refinement.",
+      "scope": "implementation-conformance",
+      "disposition": "not_machine_checked",
+      "related_fields": ["formal_coverage_map", "evidence"]
+    }
+  ]
+}

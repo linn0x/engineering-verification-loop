@@ -1,0 +1,4 @@
+interface:
+  display_name: "Profiler Guided Optimization"
+  short_description: "Profiling specialist for engineering-verification-loop"
+  default_prompt: "Use $profiler-guided-optimization directly or as routed by $engineering-verification-loop to profile a workload, identify bottlenecks, and verify an optimization with before/after evidence."

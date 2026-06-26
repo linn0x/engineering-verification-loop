@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0",
+  "model": {
+    "kind": "dafny",
+    "artifact": "formal/Spec.dfy",
+    "status": "passed"
+  },
+  "properties": [
+    {
+      "id": "property-id",
+      "formal_artifact": "formal/Spec.dfy",
+      "formal_symbol": "NormalizeSpec",
+      "kind": "postcondition",
+      "description": "Formal property proven by the model.",
+      "preconditions": ["Inputs satisfy the model domain."],
+      "model_semantics": {
+        "integer_domain": "unbounded_math_int",
+        "ordering": "strict_ascending"
+      },
+      "target_semantics": {
+        "integer_width": "int64",
+        "overflow_policy": "reject",
+        "mutation_policy": "input_not_mutated"
+      },
+      "implementation_obligations": [
+        "output is sorted ascending",
+        "output contains no duplicates",
+        "input is not mutated"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "go-differential-normalize",
+      "language": "go",
+      "implementation_artifact": "internal/normalize/normalize.go",
+      "entrypoint": "NormalizeValues",
+      "evidence_type": "fuzz_differential",
+      "test_command": "go test ./internal/normalize",
+      "result_artifact": "reports/go-test.log",
+      "artifact": "reports/go-test.log",
+      "status": "passed",
+      "covers": ["property-id"],
+      "case_count": 1000,
+      "seed": 20260614,
+      "oracle_artifact": "formal/generated/normalize_oracle.jsonl",
+      "known_gaps": []
+    },
+    {
+      "id": "python-differential-normalize",
+      "language": "python",
+      "implementation_artifact": "src/normalize.py",
+      "entrypoint": "normalize_values",
+      "evidence_type": "property_differential",
+      "test_command": "pytest tests/test_model_conformance.py -q",
+      "result_artifact": "reports/pytest.log",
+      "artifact": "reports/pytest.log",
+      "status": "passed",
+      "covers": ["property-id"],
+      "case_count": 1000,
+      "seed": 20260614,
+      "oracle_artifact": "tests/oracles/slow_normalize.py",
+      "known_gaps": []
+    }
+  ]
+}

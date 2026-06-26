@@ -1,0 +1,39 @@
+{
+  "python": [
+    {
+      "kind": "unit",
+      "command": "pytest -q",
+      "status": "passed",
+      "artifact_refs": ["pytest-log"],
+      "summary": "Python unit tests passed."
+    },
+    {
+      "kind": "hypothesis",
+      "command": "pytest tests/test_properties.py -q --hypothesis-seed=20260614",
+      "status": "passed",
+      "artifact_refs": ["pytest-property-log"],
+      "summary": "Hypothesis/property tests passed with fixed seed recorded."
+    },
+    {
+      "kind": "differential",
+      "command": "pytest tests/test_model_conformance.py -q",
+      "status": "passed",
+      "artifact_refs": ["pytest-conformance-log"],
+      "summary": "Python implementation matched model fixtures/oracle."
+    },
+    {
+      "kind": "benchmark",
+      "command": "pytest tests/benchmarks --benchmark-json reports/pytest-benchmark.json",
+      "status": "passed",
+      "artifact_refs": ["pytest-benchmark-json"],
+      "summary": "Python benchmark artifact recorded."
+    },
+    {
+      "kind": "profile",
+      "command": "python -m cProfile -o reports/profile.prof scripts/profile_workload.py",
+      "status": "passed",
+      "artifact_refs": ["python-profile"],
+      "summary": "Python profile artifact recorded."
+    }
+  ]
+}
