@@ -158,4 +158,4 @@ The GitHub Actions workflow validates the packaged skills on push and pull reque
 
 ## License
 
-No license has been selected in this packaged repository. Add a `LICENSE` file before publishing if you want others to have explicit reuse rights.
+Apache License 2.0. See [LICENSE](LICENSE).
